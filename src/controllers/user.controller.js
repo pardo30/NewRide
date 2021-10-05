@@ -1,7 +1,7 @@
 const userMethods = {};
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const privateKey = process.env.PRIVATE_KEY;
+
 
 async function getUser(param) {
     try {
@@ -66,7 +66,6 @@ userMethods.register = async (req, res) => {
 userMethods.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await getUser({ email });
-    console.log(user.username);
     if (user) {
         const verifyPassword = await user.verifyPassword(password);
         console.log(verifyPassword);
@@ -77,8 +76,7 @@ userMethods.login = async (req, res) => {
             })
         }
         try {
-            const token = jwt.sign(user._id.toString(), privateKey);
-            console.log(token);
+            const token = jwt.sign(user._id.toString(), process.env.PRIVATE_KEY);
             return res.status(200).json({
                 status: true,
                 token,
@@ -92,7 +90,31 @@ userMethods.login = async (req, res) => {
         }
     }
 };
-userMethods.authenticate = async (req, res) => { };
+userMethods.authenticate = async (req, res) => {
+    try {
+        const token = req.headers['authorization'];
+        console.log(token)
+        if (token) {
+            const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
+            if (verifyToken) {
+                return res.status(200).json({
+                    status: true,
+                    message: 'The token is correct.',
+                });
+            }
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'The token is required.'
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'The token is invalid.'
+        });
+    }
+};
 userMethods.userProfil = async (req, res) => { };
 userMethods.showAllUser = async (req, res) => { }
 
