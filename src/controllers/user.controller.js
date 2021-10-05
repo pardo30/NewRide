@@ -1,5 +1,7 @@
 const userMethods = {};
 const User = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+const privateKey = process.env.PRIVATE_KEY;
 
 async function getUser(param) {
     try {
@@ -61,7 +63,35 @@ userMethods.register = async (req, res) => {
         })
     }
 };
-userMethods.login = async (req, res) => { };
+userMethods.login = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await getUser({ email });
+    console.log(user.username);
+    if (user) {
+        const verifyPassword = await user.verifyPassword(password);
+        console.log(verifyPassword);
+        if (!verifyPassword) {
+            return res.status(400).json({
+                status: false,
+                message: 'Email or password incorrect.'
+            })
+        }
+        try {
+            const token = jwt.sign(user._id.toString(), privateKey);
+            console.log(token);
+            return res.status(200).json({
+                status: true,
+                token,
+                message: 'Login correct.'
+            })
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: 'There was a problem, please try again.',
+            })
+        }
+    }
+};
 userMethods.authenticate = async (req, res) => { };
 userMethods.userProfil = async (req, res) => { };
 userMethods.showAllUser = async (req, res) => { }
