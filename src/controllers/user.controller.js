@@ -137,6 +137,27 @@ userMethods.userProfil = async (req, res) => {
 
     }
 };
-userMethods.showAllUser = async (req, res) => { }
+userMethods.getAllUser = async (req, res) => {
+    const users = await User.find();
+    try {
+        if (users) {
+            return res.status(200).json({
+                status: true,
+                users,
+                message: "Users found."
+            })
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: "No users found."
+            })
+        } 
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: "No users found."
+        })
+    }
+ }
 
 module.exports = userMethods;
