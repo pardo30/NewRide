@@ -115,7 +115,28 @@ userMethods.authenticate = async (req, res) => {
         });
     }
 };
-userMethods.userProfil = async (req, res) => { };
+userMethods.userProfil = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await getUser({ email });
+        console.log(user);
+        if (user) {
+            return res.status(200).json({
+                status: true,
+                user,
+                message: "User found."
+            })
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: "No user found."
+            })
+        }
+
+    } catch (error) {
+
+    }
+};
 userMethods.showAllUser = async (req, res) => { }
 
 module.exports = userMethods;
