@@ -100,32 +100,28 @@ productMethod.createProduct = async (req, res) => {
     }
 };
 productMethod.updateProduct = async (req, res) => {
-    //const productID = req.params.id;
+    // const productID = req.params.id;
+    // let product = await getProduct({ id: productID });
+    // const { refCode, name, category, description, image, price, stock } = req.body;
     try {
-        //const productID = req.params.id;
-        const {productID, refCode, name, category, description, image, price, stock } = req.body;
-        await Product.updateOne({ _id: productID },
-            {   refCode: refCode,
-                name: name,
-                category: category,
-                description: description,
-                image: image,
-                price: price,
-                stock: stock
-            }, function (err) {
-                if (err) {
+        let body = req.body;
+        Product.findOneAndUpdate({ _id: body._id }, {
+            $set: req.body
+        },
+            function (error, info) {
+                if (error) {
+                    return res.status(400).json({
+                        status: false,
+                        message: 'Product not updated.',
+                    });
+                } else {
                     return res.status(200).json({
                         status: true,
                         message: 'Product successfully updated.',
                     });
                 }
-                else {
-                    return res.status(400).json({
-                        status: false,
-                        message: 'Product not updated.',
-                    });
-                }
-            });
+            }
+        )
         // await Product.updateOne({ _id: productID }, {
         //     refCode: refCode,
         //     name: name,
@@ -158,25 +154,25 @@ productMethod.deleteProduct = async (req, res) => {
     const verifyProduct = await getProduct({ refCode: refCode });
     if (verifyProduct) {
         await Product.deleteOne({ refCode: refCode })
-        .then(function () {
-            return res.status(200).json({
-                status: true,
-                message: 'The product was eliminated succesfully.',
-            });
-        })
-        .catch(function () {
-            return res.status(400).json({
-                status: false,
-                message: 'There was a problem, please try again.',
-            });
-        })
+            .then(function () {
+                return res.status(200).json({
+                    status: true,
+                    message: 'The product was eliminated succesfully.',
+                });
+            })
+            .catch(function () {
+                return res.status(400).json({
+                    status: false,
+                    message: 'There was a problem, please try again.',
+                });
+            })
     } else {
         return res.status(400).json({
             status: false,
             message: 'This product does not exist, please try again.',
         });
     }
-    
+
 };
 
 module.exports = productMethod;
