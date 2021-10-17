@@ -9,13 +9,13 @@ async function getProduct(_fields) {
     }
 };
 
-async function deleteProduct(_fields) {
-    try {
-        return await Product.deleteOne(_fields).exec();
-    } catch (error) {
-        return false;
-    }
-};
+// async function deleteProduct(_fields) {
+//     try {
+//         return await Product.deleteOne(_fields).exec();
+//     } catch (error) {
+//         return false;
+//     }
+// };
 
 productMethod.getProducts = async (req, res) => {
     const products = await Product.find();
@@ -39,7 +39,30 @@ productMethod.getProducts = async (req, res) => {
         })
     }
 };
-productMethod.getProduct = async (req, res) => { };
+productMethod.getProduct = async (req, res) => {
+    try {
+        const productID = req.params.id;
+        if (productID) {
+            const product = await getProduct({ _id: productID })
+            if (product) {
+                return res.status(200).json({
+                    status: true,
+                    message: 'Product found.',
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: 'Product not found.',
+                });
+            }
+        }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'Product not found.',
+        });
+    }
+};
 productMethod.createProduct = async (req, res) => {
     const { refCode, name, category, description, image, price, stock } = req.body;
     console.log(name);
@@ -76,10 +99,65 @@ productMethod.createProduct = async (req, res) => {
         }
     }
 };
-productMethod.updateProduct = async (req, res) => { };
+productMethod.updateProduct = async (req, res) => {
+    //const productID = req.params.id;
+    try {
+        //const productID = req.params.id;
+        const {productID, refCode, name, category, description, image, price, stock } = req.body;
+        await Product.updateOne({ _id: productID },
+            {   refCode: refCode,
+                name: name,
+                category: category,
+                description: description,
+                image: image,
+                price: price,
+                stock: stock
+            }, function (err) {
+                if (err) {
+                    return res.status(200).json({
+                        status: true,
+                        message: 'Product successfully updated.',
+                    });
+                }
+                else {
+                    return res.status(400).json({
+                        status: false,
+                        message: 'Product not updated.',
+                    });
+                }
+            });
+        // await Product.updateOne({ _id: productID }, {
+        //     refCode: refCode,
+        //     name: name,
+        //     category: category,
+        //     description: description,
+        //     image: image,
+        //     price: price,
+        //     stock: stock
+        // })
+        // if (product) {
+        //     return res.status(200).json({
+        //         status: true,
+        //         message: 'Product successfully updated.',
+        //     });
+        // } else {
+        //     return res.status(400).json({
+        //         status: false,
+        //         message: 'Product not updated.',
+        //     });
+        // }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'Product not found.',
+        });
+    }
+};
 productMethod.deleteProduct = async (req, res) => {
     const { refCode } = req.body;
-    await Product.deleteOne({ refCode: refCode })
+    const verifyProduct = await getProduct({ refCode: refCode });
+    if (verifyProduct) {
+        await Product.deleteOne({ refCode: refCode })
         .then(function () {
             return res.status(200).json({
                 status: true,
@@ -92,6 +170,13 @@ productMethod.deleteProduct = async (req, res) => {
                 message: 'There was a problem, please try again.',
             });
         })
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: 'This product does not exist, please try again.',
+        });
+    }
+    
 };
 
 module.exports = productMethod;

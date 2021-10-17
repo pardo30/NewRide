@@ -22,6 +22,9 @@ const userSchema = new Schema({
     address: {
         type: String
     },
+    isAdmin: {
+        type:Boolean
+    }
 })
 
 userSchema.methods.verifyPassword = function(password) {

@@ -96,9 +96,12 @@ userMethods.authenticate = async (req, res) => {
         console.log(token)
         if (token) {
             const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
+            console.log(verifyToken);
             if (verifyToken) {
+                let user = await User.findById(verifyToken);
                 return res.status(200).json({
                     status: true,
+                    user,
                     message: 'The token is correct.',
                 });
             }
