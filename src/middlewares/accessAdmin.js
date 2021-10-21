@@ -9,10 +9,14 @@ try {
         const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
         if (verifyToken) {
             const user = await User.findById(verifyToken);
-            if(user.isAdmin == req.body.isAdmin){
+            console.log(user);
+            if(user.isAdmin == true){
                 next();
-            }
-        }
+            }else{
+                return res.status(400).json({
+                status: false,
+                message: 'You are not allowed.'
+            });}        }
     } else {
         return res.status(400).json({
             status: false,

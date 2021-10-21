@@ -108,7 +108,7 @@ productMethod.updateProduct = async (req, res) => {
         Product.findOneAndUpdate({ _id: body._id }, {
             $set: req.body
         },
-            function (error, info) {
+            function (error) {
                 if (error) {
                     return res.status(400).json({
                         status: false,

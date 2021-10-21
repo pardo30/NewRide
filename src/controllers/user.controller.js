@@ -12,7 +12,7 @@ async function getUser(param) {
 }
 
 userMethods.register = async (req, res) => {
-    const { username, email, password, name, address } = req.body;
+    const { username, email, password, name, address, isAdmin } = req.body;
     if (username, email, password) {
         try {
             const verifyEmail = await getUser({ email });
@@ -34,7 +34,8 @@ userMethods.register = async (req, res) => {
                     email,
                     password,
                     name,
-                    address
+                    address,
+                    isAdmin
                 });
 
                 user.password = await user.encryptPassword(user.password);
@@ -79,6 +80,7 @@ userMethods.login = async (req, res) => {
             const token = jwt.sign(user._id.toString(), process.env.PRIVATE_KEY);
             return res.status(200).json({
                 status: true,
+                email,
                 token,
                 message: 'Login correct.'
             })

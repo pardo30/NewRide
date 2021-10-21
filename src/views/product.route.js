@@ -7,9 +7,10 @@ const admin = require('../middlewares/accessAdmin');
 router
     .get('/getProducts', getProducts)
     .get('/getProduct/', getProduct)
-    .post('/createProduct',auth,admin, createProduct)
-    .put('/updateProduct',auth,admin, updateProduct)
-    .delete('/deleteProduct',auth,admin, deleteProduct)
+    .post('/createProduct',admin, createProduct)
+    .put('/updateProduct',admin, updateProduct)
+    .delete('/deleteProduct',admin, deleteProduct)
 
+    
 
 module.exports = router;
