@@ -28,7 +28,7 @@ const productSchema = new Schema({
     stock: {        
         type: Number,
         require: true
-    },
+    }
 
 })
 

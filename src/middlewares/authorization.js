@@ -7,8 +7,10 @@ try {
     console.log(token)
     if (token) {
         const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
+        console.log(token)
         if (verifyToken) {
-            req.user = await User.findById(verifyToken);
+            user = await User.findById(verifyToken);
+            req.userID = user._id;
             next();
         }
     } else {

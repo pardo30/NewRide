@@ -2,16 +2,10 @@ const orderMethod = {};
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 
-async function cart() {
-    const order = await Order.find().populate({
-        path: "items.productID",
-    })
-    return order[0];
-};
-
 orderMethod.getAllItems = async (req, res) => {
+    const userID = req.userID;
     try {
-        const order = await Order.find()
+        const order = await Order.findOne({ userID})
         if (!order) {
             return res.status(400).json({
                 status: false,
@@ -31,7 +25,7 @@ orderMethod.getAllItems = async (req, res) => {
 };
 orderMethod.addOrder = async (req, res) => {
     const { productID, quantity } = req.body
-    const userID = "617198ac9436ba05895fc287";
+    const userID = req.userID;
     try {
         let order = await Order.findOne({ userID });
         let productDetails = await Product.findById(productID);

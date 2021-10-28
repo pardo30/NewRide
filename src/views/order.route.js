@@ -4,8 +4,8 @@ const { addOrder, getAllItems, emptyOrder,  } = require('../controllers/order.co
 const auth = require('../middlewares/authorization');
 
 router
-    .post('/addOrder', addOrder)
-    .get('/getOrder', getAllItems)
-    .delete('/emptyOrder', emptyOrder)
+    .post('/addOrder',auth, addOrder)
+    .get('/getOrder',auth, getAllItems)
+    .delete('/emptyOrder',auth, emptyOrder)
 
 module.exports = router;
