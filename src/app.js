@@ -20,5 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Configure routes
 app.use('/user', require('./views/user.route'));
 app.use('/product', require('./views/product.route'));
+app.use('/order', require('./views/order.route'));
 
 module.exports = app;

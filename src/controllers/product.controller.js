@@ -122,26 +122,6 @@ productMethod.updateProduct = async (req, res) => {
                 }
             }
         )
-        // await Product.updateOne({ _id: productID }, {
-        //     refCode: refCode,
-        //     name: name,
-        //     category: category,
-        //     description: description,
-        //     image: image,
-        //     price: price,
-        //     stock: stock
-        // })
-        // if (product) {
-        //     return res.status(200).json({
-        //         status: true,
-        //         message: 'Product successfully updated.',
-        //     });
-        // } else {
-        //     return res.status(400).json({
-        //         status: false,
-        //         message: 'Product not updated.',
-        //     });
-        // }
     } catch (error) {
         return res.status(400).json({
             status: false,
