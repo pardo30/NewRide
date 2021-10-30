@@ -12,7 +12,7 @@ async function getUser(param) {
 }
 
 userMethods.register = async (req, res) => {
-    const { username, email, password, name, address, isAdmin } = req.body;
+    const { username, email, password, name, address } = req.body;
     if (username, email, password) {
         try {
             const verifyEmail = await getUser({ email });
@@ -34,8 +34,7 @@ userMethods.register = async (req, res) => {
                     email,
                     password,
                     name,
-                    address,
-                    isAdmin
+                    address
                 });
 
                 user.password = await user.encryptPassword(user.password);
@@ -48,6 +47,58 @@ userMethods.register = async (req, res) => {
                     return res.status(400).json({
                         status: false,
                         message: 'User has not been saved , please try again.',
+                    });
+                }
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: 'There was a problem, please try again.',
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: 'Please fill in all requested fields.',
+        })
+    }
+};
+userMethods.registerAdmin = async (req, res) => {
+    const { username, email, password, name, isAdmin } = req.body;
+    if (username, email, password) {
+        try {
+            const verifyEmail = await getUser({ email });
+            if (verifyEmail) {
+                return res.status(400).json({
+                    status: false,
+                    message: 'Email already exists, please try with another one.',
+                })
+            } else {
+                const verifyUsername = await getUser({ username });
+                if (verifyUsername) {
+                    return res.status(400).json({
+                        status: false,
+                        message: 'Username already exists, please try with another one.',
+                    })
+                }
+                const user = new User({
+                    username,
+                    email,
+                    password,
+                    name,
+                    isAdmin: true
+                });
+
+                user.password = await user.encryptPassword(user.password);
+                if (await user.save()) {
+                    return res.status(201).json({
+                        status: true,
+                        message: 'Admin created successfully.',
+                    });
+                } else {
+                    return res.status(400).json({
+                        status: false,
+                        message: 'Admin has not been saved , please try again.',
                     });
                 }
             }
@@ -121,10 +172,9 @@ userMethods.authenticate = async (req, res) => {
     }
 };
 userMethods.userProfil = async (req, res) => {
-    const { email } = req.body;
+    const userID = req.userID;
     try {
-        const user = await getUser({ email });
-        console.log(user);
+        const user = await User.findOne({ _id: userID })
         if (user) {
             return res.status(200).json({
                 status: true,
@@ -142,6 +192,56 @@ userMethods.userProfil = async (req, res) => {
 
     }
 };
+userMethods.updatetUserProfil = async (req, res) => {
+    const userID = req.userID;
+    try {
+        User.findOneAndUpdate({ _id: userID }, {
+            $set: req.body
+        },
+            function (error) {
+                if (error) {
+                    return res.status(400).json({
+                        status: false,
+                        message: 'User not updated.',
+                    });
+                } else {
+                    return res.status(200).json({
+                        status: true,
+                        message: 'User successfully updated.',
+                    });
+                }
+            }
+        )
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'Product not found.',
+        });
+    }
+};
+userMethods.deleteUserProfil = async (req, res) => {
+    const userID = req.userID;
+    try {
+        await User.deleteOne({ _id: userID })
+            .then(function () {
+                return res.status(200).json({
+                    status: true,
+                    message: 'The user was eliminated succesfully.',
+                });
+            })
+            .catch(function () {
+                return res.status(400).json({
+                    status: false,
+                    message: 'There was a problem, please try again.',
+                });
+            })
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.',
+        });
+    }
+};
 userMethods.getAllUser = async (req, res) => {
     const users = await User.find();
     try {
@@ -156,13 +256,13 @@ userMethods.getAllUser = async (req, res) => {
                 status: false,
                 message: "No users found."
             })
-        } 
+        }
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: "No users found."
         })
     }
- }
+}
 
 module.exports = userMethods;
