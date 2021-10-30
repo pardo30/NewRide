@@ -9,13 +9,6 @@ async function getProduct(_fields) {
     }
 };
 
-// async function deleteProduct(_fields) {
-//     try {
-//         return await Product.deleteOne(_fields).exec();
-//     } catch (error) {
-//         return false;
-//     }
-// };
 
 productMethod.getProducts = async (req, res) => {
     const products = await Product.find();
@@ -41,12 +34,13 @@ productMethod.getProducts = async (req, res) => {
 };
 productMethod.getProduct = async (req, res) => {
     try {
-        const productID = req.params.id;
+        const productID = req.query.id;
         if (productID) {
             const product = await getProduct({ _id: productID })
             if (product) {
                 return res.status(200).json({
                     status: true,
+                    product,
                     message: 'Product found.',
                 });
             } else {
@@ -100,12 +94,9 @@ productMethod.createProduct = async (req, res) => {
     }
 };
 productMethod.updateProduct = async (req, res) => {
-    // const productID = req.params.id;
-    // let product = await getProduct({ id: productID });
-    // const { refCode, name, category, description, image, price, stock } = req.body;
     try {
-        let body = req.body;
-        Product.findOneAndUpdate({ _id: body._id }, {
+        const productID = req.query.id;
+        Product.findOneAndUpdate({ _id: productID }, {
             $set: req.body
         },
             function (error) {
@@ -130,10 +121,9 @@ productMethod.updateProduct = async (req, res) => {
     }
 };
 productMethod.deleteProduct = async (req, res) => {
-    const { refCode } = req.body;
-    const verifyProduct = await getProduct({ refCode: refCode });
-    if (verifyProduct) {
-        await Product.deleteOne({ refCode: refCode })
+    const productID = req.query.id;
+    try {
+        await Product.deleteOne({ _id: productID })
             .then(function () {
                 return res.status(200).json({
                     status: true,
@@ -146,13 +136,99 @@ productMethod.deleteProduct = async (req, res) => {
                     message: 'There was a problem, please try again.',
                 });
             })
-    } else {
+    } catch (error) {
         return res.status(400).json({
             status: false,
-            message: 'This product does not exist, please try again.',
+            message: 'There was a problem, please try again.',
         });
     }
-
 };
-
+productMethod.filterByCategory = async (req, res) => {
+    const category = req.query.category;
+    try {
+        const products = await Product.find({ category: category })
+        if (products) {
+            return res.status(200).json({
+                status: true,
+                products,
+                message: 'Products found by category',
+            });
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'There was a problem, please try again.',
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.',
+        });
+    }
+};
+productMethod.filterByText = async (req, res) => {
+    const text = req.query.q;
+    if(text){
+        const products = await Product.find(
+            {$text:{$search: text}},
+            {score:{$meta: 'textScore'}}
+        ).sort({
+            score:{$meta:'textScore'}
+        })
+        return res.status(200).json({
+            status: true,
+            products,
+            message: 'Products found by category',
+        });
+    }else{
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.',
+        });
+    }
+};
+productMethod.filterByPriceAsc = async (req, res) => {
+    try {
+        const products = await Product.find().sort({price:1})
+        if (products) {
+            return res.status(200).json({
+                status: true,
+                products,
+                message: 'Products order by price',
+            });
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'There was a problem, please try again.',
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.',
+        });
+    }
+};
+productMethod.filterByPriceDesc = async (req, res) => {
+    try {
+        const products = await Product.find().sort({price:-1})
+        if (products) {
+            return res.status(200).json({
+                status: true,
+                products,
+                message: 'Products order by price',
+            });
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'There was a problem, please try again.',
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.',
+        });
+    }
+};
 module.exports = productMethod;

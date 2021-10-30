@@ -4,18 +4,22 @@ const productSchema = new Schema({
     refCode: {        
         type: String,
         require: true,
-        unique: true
+        unique: true,
+        index: true
     },
     name: {        
         type: String,
-        require: true
+        require: true,
+        index: true
     },
     category: {        
         type: String,
-        require: true
+        require: true,
+        index: true
     },
     description: {        
-        type: String
+        type: String,
+        index: true
     },
     image: {        
         type: String,
