@@ -14,6 +14,9 @@ const orderSchema = new Schema({
                 ref: 'Product',
                 required: true
             },
+            productName: {
+                type: String
+            },
             quantity: {
                 type: Number,
                 required: true,
@@ -23,11 +26,11 @@ const orderSchema = new Schema({
                 type: Number,
                 required: true
             },
-            total: {
+            subtotal: {
                 type: Number
             }
         }],
-    subtotal: {
+    total: {
         type: Number,
         default: 0
     }

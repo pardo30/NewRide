@@ -2,7 +2,7 @@ const orderMethod = {};
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 
-orderMethod.getAllItems = async (req, res) => {
+orderMethod.getOrderByUser = async (req, res) => {
     const userID = req.userID;
     try {
         const order = await Order.findOne({ userID})
@@ -14,7 +14,7 @@ orderMethod.getAllItems = async (req, res) => {
         }
         res.status(200).json({
             status: true,
-            items: order
+            order: order
         })
     } catch (err) {
         return res.status(400).json({
@@ -32,23 +32,24 @@ orderMethod.addOrder = async (req, res) => {
         if (order) {
             let itemIndex = order.items.findIndex(item => item.productID == productID)
             if (itemIndex > -1) {
-                //product exists in the cart, update the quantity
+                //product exists in the order, update the quantity
                 let productItem = order.items[itemIndex];
                 productItem.quantity = quantity;
                 order.items[itemIndex] = productItem;
             } else {
-                //product does not exists in cart, add new item
+                //product does not exists in order, add new item
                 order.items.push({
                     productID: productID,
+                    productName: productDetails.name,
                     quantity: quantity,
                     price: productDetails.price,
-                    total: parseInt(productDetails.price * quantity)
+                    subtotal: parseInt(productDetails.price * quantity)
                 });
+                order.total = order.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
                 order = await order.save();
                 return res.status(200).json({
                     status: true,
                     message: "Order has been created ",
-                    items: order
                 }).send(order)
             }
 
@@ -58,20 +59,22 @@ orderMethod.addOrder = async (req, res) => {
                 userID,
                 items: [{
                     productID: productID,
+                    productName: productDetails.name,
                     quantity: quantity,
                     price: productDetails.price,
-                    total: parseInt(productDetails.price * quantity)
-                }]
+                    subtotal: parseInt(productDetails.price * quantity)
+                }],
+                total: parseInt(productDetails.price * quantity)
             });
             if (await newOrder.save()) {
                 return res.status(201).json({
                     status: true,
-                    message: 'Product created successfully.',
+                    message: 'Order created successfully.',
                 });
             } else {
                 return res.status(400).json({
                     status: false,
-                    message: 'Product has not been saved, please try again.',
+                    message: 'Order has not been saved, please try again.',
                 });
             }
         }
@@ -82,15 +85,23 @@ orderMethod.addOrder = async (req, res) => {
         })
     }
 };
+// orderMethod.addOrder = async (req, res) => {
+//     const { productID, quantity } = req.body
+
+//     try {
+//     } catch (error) {
+//         return res.status(400).json({
+//             status: false,
+//             message: "Order error, please try again."
+//         })
+//     }
+// };
 orderMethod.emptyOrder = async (req, res) => {
-    const userID = "617198ac9436ba05895fc287";
+    const userID = req.userID;
     try {
         let order = await Order.findOne({ userID });
-        console.log(order);
         order.items = [];
-        order.subTotal = 0
-        console.log(order);
-        console.log("hola");
+        order.total = 0
         if (await order.save()) {
             return res.status(200).json({
                 status: true,
@@ -106,6 +117,27 @@ orderMethod.emptyOrder = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: "Order empty error, please try again."
+        })
+    }
+};
+orderMethod.getAllOrder = async (req, res) => {
+    const userID = req.query.userID;
+    try {
+        const order = await Order.find()
+        if (!order) {
+            return res.status(400).json({
+                status: false,
+                message: 'Order not found.',
+            });
+        }
+        res.status(200).json({
+            status: true,
+            order
+        })
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: "Order error, please try again."
         })
     }
 };

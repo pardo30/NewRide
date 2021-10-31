@@ -17,6 +17,9 @@ app.use(morgan('dev'));
 // Define static files access
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Home route
+app.get('/', (req,res) => {res.send('Home Page')})
+
 // Configure routes
 app.use('/user', require('./views/user.route'));
 app.use('/product', require('./views/product.route'));

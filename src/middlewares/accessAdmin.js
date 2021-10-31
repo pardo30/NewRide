@@ -4,12 +4,10 @@ const jwt = require('jsonwebtoken');
 const accessAdmin = async (req, res, next) => {
 try {
     const token = req.headers['authorization'];
-    console.log(token)
     if (token) {
         const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
         if (verifyToken) {
             const user = await User.findById(verifyToken);
-            console.log(user);
             if(user.isAdmin == true){
                 next();
             }else{
