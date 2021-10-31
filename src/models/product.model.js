@@ -32,8 +32,11 @@ const productSchema = new Schema({
     stock: {        
         type: Number,
         require: true
+    },
+    date : { 
+        type : Date, 
+        default: Date.now 
     }
-
-})
+});
 
 module.exports = model("Product", productSchema);

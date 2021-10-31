@@ -5,7 +5,7 @@ const Product = require('../models/product.model');
 orderMethod.getOrderByUser = async (req, res) => {
     const userID = req.userID;
     try {
-        const order = await Order.findOne({ userID})
+        const order = await Order.findOne({ userID })
         if (!order) {
             return res.status(400).json({
                 status: false,
@@ -26,6 +26,7 @@ orderMethod.getOrderByUser = async (req, res) => {
 orderMethod.addOrder = async (req, res) => {
     const { productID, quantity } = req.body
     const userID = req.userID;
+    const product = await Order.findById({ _id: productID })
     try {
         let order = await Order.findOne({ userID });
         let productDetails = await Product.findById(productID);
