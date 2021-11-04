@@ -28,7 +28,14 @@ const userSchema = new Schema({
     date : { 
         type : Date, 
         default: Date.now 
-    }
+    },
+    orders:[
+        {orderID: {
+            type: Schema.Types.ObjectId,
+            ref: 'Order',
+            required: true
+        }}
+    ]
 })
 
 userSchema.methods.verifyPassword = function(password) {

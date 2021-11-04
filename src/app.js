@@ -24,5 +24,6 @@ app.get('/', (req,res) => {res.send('Home Page')})
 app.use('/user', require('./views/user.route'));
 app.use('/product', require('./views/product.route'));
 app.use('/order', require('./views/order.route'));
+app.use('/cart', require('./views/cart.route'));
 
 module.exports = app;
