@@ -2,20 +2,48 @@ const orderMethod = {};
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 
+function getOrderInfo(userID) {
+    return Order.findOne( { userID: userID})
+        .populate('user')
+        .exec((err,user) => user)
+}
+
 orderMethod.getOrderByUser = async (req, res) => {
     const userID = req.userID;
+    const populateUser = {
+        path: 'userID',
+        select: 'name address email'
+    }
+    const populateProduct = {
+        path: 'items.productID',
+        select: 'name category description price stock'
+    }
     try {
         const order = await Order.findOne({ userID })
+                   
         if (!order) {
             return res.status(400).json({
                 status: false,
                 message: 'Order not found.',
             });
         }
-        res.status(200).json({
-            status: true,
-            order: order
-        })
+        await Order.findOne({ userID })
+            .populate(populateUser)
+            .populate(populateProduct)
+            .exec((error, order) => {
+                if (error) {
+                    return res.status(500).json({
+                        success: false,
+                        error
+                    })
+                }
+                Order.count({}, ( err, total ) => {
+                    res.status(200).json({
+                        success: true,
+                        order,
+                        total
+                    })
+                })})
     } catch (err) {
         return res.status(400).json({
             status: false,
@@ -41,9 +69,7 @@ orderMethod.addOrder = async (req, res) => {
                 //product does not exists in order, add new item
                 order.items.push({
                     productID: productID,
-                    productName: productDetails.name,
                     quantity: quantity,
-                    price: productDetails.price,
                     subtotal: parseInt(productDetails.price * quantity)
                 });
                 order.total = order.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
@@ -60,9 +86,7 @@ orderMethod.addOrder = async (req, res) => {
                 userID,
                 items: [{
                     productID: productID,
-                    productName: productDetails.name,
                     quantity: quantity,
-                    price: productDetails.price,
                     subtotal: parseInt(productDetails.price * quantity)
                 }],
                 total: parseInt(productDetails.price * quantity)
