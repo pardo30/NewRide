@@ -47,6 +47,7 @@ cartMethod.getCartByUser = async (req, res) => {
         })
     }
 };
+
 cartMethod.addProduct = async (req, res) => {
     const userID = req.userID;
     const { productID, quantity } = req.body
