@@ -4,15 +4,15 @@ const { createProduct, deleteProduct, getProducts, updateProduct, getProduct, fi
 const admin = require('../middlewares/accessAdmin');
 
 router
+    .post('/createProduct',admin, createProduct)
     .get('/getProducts', getProducts)
     .get('/getProduct', getProduct)
-    .post('/createProduct',admin, createProduct)
-    .put('/updateProduct',admin, updateProduct)
-    .delete('/deleteProduct',admin, deleteProduct)
     .get('/filterByCategory',filterByCategory)
     .get('/filterByText', filterByText)
     .get('/filterByPriceAsc',filterByPriceAsc)
     .get('/filterByPriceDesc',filterByPriceDesc)
+    .put('/updateProduct',admin, updateProduct)
+    .delete('/deleteProduct',admin, deleteProduct)
 
     
 

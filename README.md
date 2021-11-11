@@ -12,13 +12,13 @@
 
 
 ## Description
-***
+
 This application has been designed for the future Ride Group's e-commerce, dedicated to the distribution of furniture and bathroom elements. It is an academic exercise within the Backend Express Bootcamp of [GeeksHubs Academy](#https://bootcamp.geekshubsacademy.com/online/backend-express/).
 
 This API has been divided into 3 sections: users, products and orders. Within each of these sections there are different degrees of access, controlled through middelwares.
 
 ## Stack of technologies
-***
+
 A list of technologies used within the project:
 - NodeJS
 - Express
@@ -26,7 +26,7 @@ A list of technologies used within the project:
 - GIT
 
 ## Usage
-***
+
 
 - Clone this repository `git https://github.com/pardo30/NewRide.git`
 
@@ -52,7 +52,7 @@ A list of technologies used within the project:
 - `npm run #run API`
 
 ## Database Schemas
-***
+
 ### User Schema
 |Name    |Type   |Unique|Required|Default   |
 |:-------|:-----:|:----:|:------:|:--------:|
@@ -96,7 +96,7 @@ A list of technologies used within the project:
 |date  |         |Date                   |-     |-       |`Date.now`|
 
 ## EndPoints
-***
+
 ### User Endpoints
 |Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
 |:---|:-----:|:---------------------|:----|:------:|:--------:|
@@ -111,19 +111,30 @@ A list of technologies used within the project:
 
 
 ### Product Endpoints
+|Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
+|:---|:-----:|:---------------------|:----|:------:|:--------:|
+|`/product/createProduct`|`POST`|Requires a JSON of product details.|message: 'Product created successfully.'| NO | YES |
+|`/product/getProducts`|`GET`|Show all products|JSON data of all users details.| NO | NO |
+|`/product/getProduct?q=id`|`GET`|Call the API with the ID(mongo db _id) of the product.|JSON data of the product.| NO | NO |
+|`/product/filterByCategory?q=category`|`GET`|Call the API with a category.|JSON data of the products in this category.| NO | NO |
+|`/product/filterByText?q=text`|`GET`|Call the API with a text.|JSON data of the products with this text.| NO | NO |
+|`/product/filterByPriceAsc`|`GET`|Show all products in ascendente price order.|JSON data of all products sorted by increasing price.| NO | NO |
+|`/product/filterByPriceDesc`|`GET`|Show all products in ascendente price order.|JSON data of all products sorted by descending price.| NO | NO |
+|`/product/updateProduct`|`PUT`|Requires a JSON of prodict details that are needed to be changed and admin JWT token.|message: 'Product successfully updated.'| NO | YES |
+|`/product/deleteProduct`|`DELETE`|Requires the ID(mongo db id) of the product that is needed to be deleted and admin JWT token|message: 'Product successfully updated.'| NO | YES |
 ### Order Endpoints and Cart Endpoints
 
 ## Middelwares
-***
+
 
 ## Collaboration
-***
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## License
-***
+
 This app is released as open source under the terms of the [MIT License](https://choosealicense.com/licenses/mit/)
 Copyright 2021 Pardo30
 
