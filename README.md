@@ -11,13 +11,13 @@
 8. [License](#License)
 
 
-## Description
+## 1. Description
 
 This application has been designed for the future Ride Group's e-commerce, dedicated to the distribution of furniture and bathroom elements. It is an academic exercise within the Backend Express Bootcamp of [GeeksHubs Academy](#https://bootcamp.geekshubsacademy.com/online/backend-express/).
 
 This API has been divided into 3 sections: users, products and orders. Within each of these sections there are different degrees of access, controlled through middelwares.
 
-## Stack of technologies
+## 2. Stack of technologies
 
 A list of technologies used within the project:
 - NodeJS
@@ -25,7 +25,7 @@ A list of technologies used within the project:
 - Mongoose
 - GIT
 
-## Usage
+## 3. Usage
 
 
 - Clone this repository `git https://github.com/pardo30/NewRide.git`
@@ -51,7 +51,7 @@ A list of technologies used within the project:
 
 - `npm run #run API`
 
-## Database Schemas
+## 4. Database Schemas
 
 ### User Schema
 |Name    |Type   |Unique|Required|Default   |
@@ -95,7 +95,7 @@ A list of technologies used within the project:
 |total |         |Number                 |-     |        |0         |
 |date  |         |Date                   |-     |-       |`Date.now`|
 
-## EndPoints
+## 5. EndPoints
 
 ### User Endpoints
 |Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
@@ -135,7 +135,7 @@ A list of technologies used within the project:
 |`/order/checkout`|`GET`|Call the API with usedID from required JWT|message: 'Order has been created.'| YES | NO |
 |`/order/getAllOrder`|`GET`|Call the API with admin JWT token|JSON data of all ordersoducts| NO | YES |
 
-## Middelwares
+## 6. Middelwares
 
 ### Auth 
 This middelware verifies the validity of the JWT and returns the associated userID.
@@ -143,13 +143,13 @@ This middelware verifies the validity of the JWT and returns the associated user
 ### Admin
 This middelware verifies the validity of the JWT and check if it is a admin profile.
 
-## Collaboration
+## 7. Collaboration
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## License
+## 8. License
 
 This app is released as open source under the terms of the [MIT License](https://choosealicense.com/licenses/mit/)
 Copyright 2021 Pardo30
