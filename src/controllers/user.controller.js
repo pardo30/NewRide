@@ -180,12 +180,12 @@ userMethods.userProfil = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 user,
-                message: "User found."
+                message: 'User found.'
             })
         } else {
             return res.status(400).json({
                 status: false,
-                message: "No user found."
+                message: 'No user found.'
             })
         }
 
@@ -250,18 +250,18 @@ userMethods.getAllUser = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 users,
-                message: "Users found."
+                message: 'Users found.'
             })
         } else {
             return res.status(400).json({
                 status: false,
-                message: "No users found."
+                message: 'No users found.'
             })
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: "No users found."
+            message: 'No users found.'
         })
     }
 }

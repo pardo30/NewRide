@@ -43,7 +43,7 @@ cartMethod.getCartByUser = async (req, res) => {
     } catch (err) {
         return res.status(400).json({
             status: false,
-            message: "Cart error, please try again."
+            message: 'Cart error, please try again.'
         })
     }
 };
@@ -57,7 +57,7 @@ cartMethod.addProduct = async (req, res) => {
         if (!product) {
             return res.status(400).json({
                 status: false,
-                message: "Product not found."
+                message: 'Product not found.'
             })
         }
         if (cart) {
@@ -78,7 +78,7 @@ cartMethod.addProduct = async (req, res) => {
                 cart = await cart.save();
                 return res.status(200).json({
                     status: true,
-                    message: "Cart has been created ",
+                    message: 'Cart has been created ',
                 }).send(cart)
             }
 
@@ -108,7 +108,7 @@ cartMethod.addProduct = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: "Cart error, please try again."
+            message: 'Cart error, please try again.'
         })
     }
 };

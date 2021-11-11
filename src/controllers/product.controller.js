@@ -17,18 +17,18 @@ productMethod.getProducts = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 products,
-                message: "Products found."
+                message: 'Products found.'
             })
         } else {
             return res.status(400).json({
                 status: false,
-                message: "No products found."
+                message: 'No products found.'
             })
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: "There was a problem, please try again."
+            message: 'There was a problem, please try again.'
         })
     }
 };
@@ -88,7 +88,7 @@ productMethod.createProduct = async (req, res) => {
         } else {
             return res.status(400).json({
                 status: false,
-                message: "Product already exists."
+                message: 'Product already exists.'
             })
         }
     }

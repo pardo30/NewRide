@@ -46,18 +46,18 @@ orderMethod.checkout = async (req, res) => {
 //         if (await order.save()) {
 //             return res.status(200).json({
 //                 status: true,
-//                 message: "Order Has been emptied",
+//                 message: 'Order Has been emptied',
 //             })
 //         } else {
 //             return res.status(400).json({
 //                 status: false,
-//                 message: "Order empty error, please try again."
+//                 message: 'Order empty error, please try again.'
 //             })
 //         }
 //     } catch (err) {
 //         return res.status(400).json({
 //             status: false,
-//             message: "Order empty error, please try again."
+//             message: 'Order empty error, please try again.'
 //         })
 //     }
 // };
@@ -78,7 +78,7 @@ orderMethod.getAllOrder = async (req, res) => {
     } catch (err) {
         return res.status(400).json({
             status: false,
-            message: "Order error, please try again."
+            message: 'Order error, please try again.'
         })
     }
 };
@@ -101,7 +101,7 @@ orderMethod.getUserOrder = async (req, res) => {
     } catch (err) {
         return res.status(400).json({
             status: false,
-            message: "Order error, please try again."
+            message: 'Order error, please try again.'
         })
     }
 };
