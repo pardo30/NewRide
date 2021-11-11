@@ -1,14 +1,14 @@
 # GRUPO RIDE - E-COMMERCE API
 
 ## Table of Contents
-1. [Description](#Description)
-2. [Stack of technologies](#Stack-of-technologies)
-3. [Usage](#Usage)
-4. [Database Schemas](#Database-schemas)
-5. [EndPoints](#Endpoints)
-6. [Middelwares](#Middelwares)
-7. [Collaboration](#Collaboration)
-8. [License](#License)
+1. [Description](#1-Description)
+2. [Stack of technologies](#2-Stack-of-technologies)
+3. [Usage](#3-Usage)
+4. [Database Schemas](#4-Database-schemas)
+5. [EndPoints](#5-Endpoints)
+6. [Middelwares](#6-Middelwares)
+7. [Collaboration](#7-Collaboration)
+8. [License](#8-License)
 
 
 ## 1. Description
