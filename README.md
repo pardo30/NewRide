@@ -6,8 +6,9 @@
 3. [Usage](#Usage)
 4. [Database Schemas](#Database-schemas)
 5. [EndPoints](#Endpoints)
-5. [Collaboration](#Collaboration)
-6. [License](#License)
+6. [Middelwares](#Middelwares)
+7. [Collaboration](#Collaboration)
+8. [License](#License)
 
 
 ## Description
@@ -53,11 +54,10 @@ A list of technologies used within the project:
 ## Database Schemas
 ***
 ### User Schema
-
 |Name    |Type   |Unique|Required|Default   |
-|  :--   | :--   | :--:  | :--:  | :--:     |
+|:-------|:-----:|:----:|:------:|:--------:|
 |username|String |true  |true    |-         |
-| email  |String |true  |true    |-         |
+|email   |String |true  |true    |-         |
 |password|String |-     |true    |-         |
 |name    |String |-     |-       |-         |
 |address |String |-     |-       |-         |
@@ -65,13 +65,56 @@ A list of technologies used within the project:
 |date    |Date   |-     |-       |`Date.now`|
 
 ### Product Schema
-### Order Schema and Cart Schema
+|Name       |Type   |Unique|Required|Default   |Index|
+|:----------|:-----:|:----:|:------:|:--------:|:---:|
+|refCode    |String |true  |true    |-         |true |
+|name       |String |-     |true    |-         |true |
+|category   |String |-     |true    |-         |true |
+|description|String |-     |-       |-         |true |
+|image      |String |-     |true    |-         |-    |
+|price      |Number |-     |true    |-         |-    |
+|stock      |Number |-     |true    |-         |-    |
+|date       |Date   |-     |-       |`Date.now`|-    |
+
+### Cart Schema
+|Name  |         |Type                   |Unique|Required|Default|
+|:-----|:--------|:---------------------:|:----:|:------:|:-----:|
+|userID|         |`Schema.Types.ObjectId`|-     |true    |-      |
+|items |productID|`Schema.Types.ObjectId`|-     |true    |-      |
+|      |quantity |Number                 |-     |true    |-      |
+|      |subtotal |Number                 |-     |-       |-      |
+|total |         |Number                 |-     |        |0      |
+
+### Order Schema
+|Name  |         |Type                   |Unique|Required|Default   |
+|:-----|:--------|:---------------------:|:----:|:------:|:--------:|
+|userID|         |`Schema.Types.ObjectId`|-     |true    |-         |
+|items |productID|`Schema.Types.ObjectId`|-     |true    |-         |
+|      |quantity |Number                 |-     |true    |-         |
+|      |subtotal |Number                 |-     |-       |-         |
+|total |         |Number                 |-     |        |0         |
+|date  |         |Date                   |-     |-       |`Date.now`|
 
 ## EndPoints
 ***
 ### User Endpoints
+|Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
+|:---|:-----:|:---------------------|:----|:------:|:--------:|
+|`/user/register`|`POST`|Accepts the username, name, email, password and address of the user.|message: 'User created successfully.'| NO | NO |
+|`/user/registerAdmin`|`POST`|Accepts the username, name, email, password and isAdmin of the admin.|message: 'Admin created successfully.'| NO | YES |
+|`/user/login`|`POST`|Call the API with email and password.|JWT Token| NO | NO |
+|`/user/userProfil`|`GET`|Call the API with usedID from required JWT token.|JSON data of the user details.| YES | NO |
+|`/user/getAllUsers`|`GET`|Call the API with admin status from required JWT token.|JSON data of all users details.| NO | YES |
+|`/user/orders`|`GET`|Call the API with usedID from required JWT token.|JSON data of all the user orders.| YES | NO |
+|`/user/updateUserProfil`|`PUT`|Call the API with with usedID from required JWT token and the details that are to be changed from body.|message: 'User successfully updated.'| YES | NO |
+|`/user/deleteUserProfil`|`DELETE`|Call the API with usedID from required JWT token.|message: 'User successfully deleted.'| YES | NO |
+
+
 ### Product Endpoints
 ### Order Endpoints and Cart Endpoints
+
+## Middelwares
+***
 
 ## Collaboration
 ***

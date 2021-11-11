@@ -83,4 +83,27 @@ orderMethod.getAllOrder = async (req, res) => {
     }
 };
 
+orderMethod.getUserOrder = async (req, res) => {
+
+    try {
+        const userID = req.userID;
+        const order = await Order.find({userID})
+        if (!order) {
+            return res.status(400).json({
+                status: false,
+                message: 'Orders not found.',
+            });
+        }
+        res.status(200).json({
+            status: true,
+            order
+        })
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: "Order error, please try again."
+        })
+    }
+};
+
 module.exports = orderMethod;
