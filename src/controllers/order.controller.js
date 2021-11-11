@@ -20,18 +20,18 @@ orderMethod.checkout = async (req, res) => {
             const data = await Cart.findByIdAndDelete({ _id: cart.id });
             return res.status(200).json({
                 status: true,
-                message: "Order has been created ",
+                message: 'Order has been created.',
             }).send(order)
         } else {
             return res.status(400).json({
                 status: false,
-                message: "Empty cart, please try again."
+                message: 'Empty cart, please try again.'
             })
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: "Order error, please try again."
+            message: 'Order error, please try again.'
         })
     }
 };

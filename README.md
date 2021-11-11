@@ -122,10 +122,26 @@ A list of technologies used within the project:
 |`/product/filterByPriceDesc`|`GET`|Show all products in ascendente price order.|JSON data of all products sorted by descending price.| NO | NO |
 |`/product/updateProduct`|`PUT`|Requires a JSON of prodict details that are needed to be changed and admin JWT token.|message: 'Product successfully updated.'| NO | YES |
 |`/product/deleteProduct`|`DELETE`|Requires the ID(mongo db id) of the product that is needed to be deleted and admin JWT token|message: 'Product successfully updated.'| NO | YES |
-### Order Endpoints and Cart Endpoints
+
+### Cart Endpoints
+|Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
+|:---|:-----:|:---------------------|:----|:------:|:--------:|
+|`/cart/addProduct`|`POST`|Call the API with  usedID from required JWT token and the ID(mongo db id) of the product and product quantity.|message: 'Cart created successfully.'| YES | NO |
+|`/cart/getCart`|`GET`|Call the API with  usedID from required JWT token|JSON data of the user cart.| YES | NO |
+|`/cart/deleteProduct`|`DELETE`|Call the API with  usedID from required JWT token and the ID(mongo db id) of the product.| message: 'Product has been deleted.'| YES | NO |
+### Order Endpoints
+|Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
+|:---|:-----:|:---------------------|:----|:------:|:--------:|
+|`/order/checkout`|`GET`|Call the API with usedID from required JWT|message: 'Order has been created.'| YES | NO |
+|`/order/getAllOrder`|`GET`|Call the API with admin JWT token|JSON data of all ordersoducts| NO | YES |
 
 ## Middelwares
 
+### Auth 
+This middelware verifies the validity of the JWT and returns the associated userID.
+
+### Admin
+This middelware verifies the validity of the JWT and check if it is a admin profile.
 
 ## Collaboration
 

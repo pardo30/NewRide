@@ -128,18 +128,18 @@ cartMethod.deleteProduct = async (req, res) => {
         if (await cart.save()) {    
             return res.status(200).json({
                 status: true,
-                message: "Product has been deleted",
+                message: 'Product has been deleted.',
             })
         } else {
             return res.status(400).json({
                 status: false,
-                message: "Product delete error, please try again."
+                message: 'Product delete error, please try again.'
             })
         }
     } catch (err) {
         return res.status(400).json({
             status: false,
-            message: "Product delete error, please try again."
+            message: 'Product delete error, please try again.'
         })
     }
 };
