@@ -128,7 +128,8 @@ A list of technologies used within the project:
 |:---|:-----:|:---------------------|:----|:------:|:--------:|
 |`/cart/addProduct`|`POST`|Call the API with  usedID from required JWT token and the ID(mongo db id) of the product and product quantity.|message: 'Cart created successfully.'| YES | NO |
 |`/cart/getCart`|`GET`|Call the API with  usedID from required JWT token|JSON data of the user cart.| YES | NO |
-|`/cart/deleteProduct`|`DELETE`|Call the API with  usedID from required JWT token and the ID(mongo db id) of the product.| message: 'Product has been deleted.'| YES | NO |
+|`/cart/updateQuantityProduct`|`PUT`|Call the API with  usedID from required JWT token, the ID(mongo db id) of the product and the quantity to modify.|JSON data of the user cart.| YES | NO |
+|`/cart/deleteProduct`|`DELETE`|Call the API with  usedID from required JWT token and the ID(mongo db id) of the product.| message: 'Product quantity has been updated.'| YES | NO |
 ### Order Endpoints
 |Endpoint |HTTP Method|Usage|Returns|Requires Auth|Requires Admin|
 |:---|:-----:|:---------------------|:----|:------:|:--------:|

@@ -113,6 +113,37 @@ cartMethod.addProduct = async (req, res) => {
     }
 };
 
+cartMethod.updateQuantityProduct = async (req, res) => {
+    const userID = req.userID;
+    const { productID, quantity } = req.body;
+    try {
+        let cart = await Cart.findOneAndUpdate({ userID })
+        let product = await Product.findById(productID);
+        console.log(cart)
+        let itemIndex = cart.items.findIndex(item => item.productID == productID)
+        console.log(itemIndex)
+        cart.items[itemIndex].quantity = quantity;
+        cart.items[itemIndex].subtotal = parseInt(product.price * quantity);
+        cart.total = cart.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
+        if (await cart.save()) {    
+            return res.status(200).json({
+                status: true,
+                message: 'Product quantity has been updated.',
+            })
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: 'Product update error, please try again.'
+            })
+        }
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: 'Product update error, please try again.'
+        })
+    }
+};
+
 cartMethod.deleteProduct = async (req, res) => {
     const userID = req.userID;
     const productID = req.productID
@@ -123,9 +154,9 @@ cartMethod.deleteProduct = async (req, res) => {
         if (itemIndex > -1) {
             //let productItem = cart.items[itemIndex];
             //cart.total -= productItem.quantity*productItem.price;
-            cart.items.splice(itemIndex,1);
+            cart.items.splice(itemIndex, 1);
         }
-        if (await cart.save()) {    
+        if (await cart.save()) {
             return res.status(200).json({
                 status: true,
                 message: 'Product has been deleted.',
