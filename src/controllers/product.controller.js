@@ -168,19 +168,27 @@ productMethod.filterByCategory = async (req, res) => {
 };
 productMethod.filterByText = async (req, res) => {
     const text = req.query.q;
-    if(text){
-        const products = await Product.find(
-            {$text:{$search: text}},
-            {score:{$meta: 'textScore'}}
-        ).sort({
-            score:{$meta:'textScore'}
-        })
-        return res.status(200).json({
-            status: true,
-            products,
-            message: 'Products found by category',
-        });
-    }else{
+    if (text) {
+        console.log(text);
+        await Product.find(
+            { $text: { $search: text } },
+            { score: { $meta: 'textScore' } }
+        )
+        .sort({ score: { $meta: 'textScore' } })
+        .exec((error, products) => {
+            if (products.length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Not products found, please try again.'
+                })
+            }else{
+                return res.status(200).json({
+                    status: true,
+                    products
+                })
+            
+        }})
+    } else {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.',
@@ -189,7 +197,7 @@ productMethod.filterByText = async (req, res) => {
 };
 productMethod.filterByPriceAsc = async (req, res) => {
     try {
-        const products = await Product.find().sort({price:1})
+        const products = await Product.find().sort({ price: 1 })
         if (products) {
             return res.status(200).json({
                 status: true,
@@ -211,7 +219,7 @@ productMethod.filterByPriceAsc = async (req, res) => {
 };
 productMethod.filterByPriceDesc = async (req, res) => {
     try {
-        const products = await Product.find().sort({price:-1})
+        const products = await Product.find().sort({ price: -1 })
         if (products) {
             return res.status(200).json({
                 status: true,
