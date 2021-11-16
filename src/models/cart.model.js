@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const cartSchema = new Schema({
     userID: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: true
     },
     items: [
@@ -28,4 +28,4 @@ const cartSchema = new Schema({
     }
 });
 
-module.exports = model("Cart", cartSchema);
+module.exports = model('Cart', cartSchema);

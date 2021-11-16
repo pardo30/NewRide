@@ -7,21 +7,21 @@ const Product = require('../models/product.model');
 orderMethod.checkout = async (req, res) => {
     try {
         const userID = req.userID;
-        //const { data } = req.body
-        let cart = await Cart.findOne({ userId });
-        let user = await User.findById(userID);
-        //const email = user.email;
+        let cart = await Cart.findOne({ userID });
         if (cart) {
             const order = await new Order({
                 userID,
                 items: cart.items,
                 total: cart.total
             });
-            const data = await Cart.findByIdAndDelete({ _id: cart.id });
+            await Cart.findByIdAndDelete({ _id: cart.id });
+            await order.save();
             return res.status(200).json({
                 status: true,
+                order,
                 message: 'Order has been created.',
-            }).send(order)
+            })
+            
         } else {
             return res.status(400).json({
                 status: false,
@@ -32,6 +32,53 @@ orderMethod.checkout = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: 'Order error, please try again.'
+        })
+    }
+};
+
+orderMethod.invoicePayment = async (req, res) => {
+    const userID = req.userID;
+    const populateUser = {
+        path: 'userID',
+        select: 'name address email'
+    }
+    const populateProduct = {
+        path: 'items.productID',
+        select: 'name category description price stock'
+    }
+    try {
+        const order = await Order.findOne({ userID })
+
+        if (!order) {
+            return res.status(400).json({
+                status: false,
+                message: 'Order not found.',
+            });
+        }
+        // Generate Invoice
+        await Order.findOne({ userID })
+            .populate(populateUser)
+            .populate(populateProduct)
+            .exec((error, cart) => {
+                if (error) {
+                    return res.status(500).json({
+                        success: false,
+                        error
+                    })
+                }
+                order.count({}, (err, total) => {
+                    res.status(200).json({
+                        success: true,
+                        order,
+                        total
+                    })
+                })
+            })
+        // Payment methods to be defined
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.'
         })
     }
 };

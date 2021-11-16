@@ -6,7 +6,7 @@ const PORT = dotenv.PORT || 3000;
 
 async function init() {
     await app.listen(PORT, () => {
-    console.log("App running on port: ", PORT)})
+    console.log('App running on port: ', PORT)})
 }
 
 init();

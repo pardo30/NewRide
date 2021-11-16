@@ -115,8 +115,8 @@ A list of technologies used within the project:
 |:---|:-----:|:---------------------|:----|:------:|:--------:|
 |`/product/createProduct`|`POST`|Requires a JSON of product details.|message: 'Product created successfully.'| NO | YES |
 |`/product/getProducts`|`GET`|Show all products|JSON data of all users details.| NO | NO |
-|`/product/getProduct?q=id`|`GET`|Call the API with the ID(mongo db _id) of the product.|JSON data of the product.| NO | NO |
-|`/product/filterByCategory?q=category`|`GET`|Call the API with a category.|JSON data of the products in this category.| NO | NO |
+|`/product/getProduct?id=id`|`GET`|Call the API with the ID(mongo db _id) of the product.|JSON data of the product.| NO | NO |
+|`/product/filterByCategory?category=category`|`GET`|Call the API with a category.|JSON data of the products in this category.| NO | NO |
 |`/product/filterByText?q=text`|`GET`|Call the API with a text.|JSON data of the products with this text.| NO | NO |
 |`/product/filterByPriceAsc`|`GET`|Show all products in ascendente price order.|JSON data of all products sorted by increasing price.| NO | NO |
 |`/product/filterByPriceDesc`|`GET`|Show all products in ascendente price order.|JSON data of all products sorted by descending price.| NO | NO |

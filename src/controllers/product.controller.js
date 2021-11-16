@@ -20,9 +20,9 @@ productMethod.getProducts = async (req, res) => {
                 message: 'Products found.'
             })
         } else {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
-                message: 'No products found.'
+                message: 'Products not found.'
             })
         }
     } catch (error) {
@@ -40,11 +40,10 @@ productMethod.getProduct = async (req, res) => {
             if (product) {
                 return res.status(200).json({
                     status: true,
-                    product,
-                    message: 'Product found.',
+                    product
                 });
             } else {
-                return res.status(400).json({
+                return res.status(404).json({
                     status: false,
                     message: 'Product not found.',
                 });
@@ -53,7 +52,7 @@ productMethod.getProduct = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: 'Product not found.',
+            message: 'There was a problem, please try again.',
         });
     }
 };
@@ -75,7 +74,7 @@ productMethod.createProduct = async (req, res) => {
             if (await product.save()) {
                 return res.status(201).json({
                     status: true,
-                    message: 'Product created successfully.',
+                    message: 'Product successfully created.',
                 });
             } else {
                 return res.status(400).json({
@@ -114,7 +113,7 @@ productMethod.updateProduct = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: 'Product not found.',
+            message: 'There was a problem, please try again.',
         });
     }
 };
@@ -125,13 +124,13 @@ productMethod.deleteProduct = async (req, res) => {
             .then(function () {
                 return res.status(200).json({
                     status: true,
-                    message: 'The product was eliminated succesfully.',
+                    message: 'Product succesfully deleted.',
                 });
             })
             .catch(function () {
                 return res.status(400).json({
                     status: false,
-                    message: 'There was a problem, please try again.',
+                    message: 'Product not deleted.',
                 });
             })
     } catch (error) {
@@ -148,13 +147,12 @@ productMethod.filterByCategory = async (req, res) => {
         if (products) {
             return res.status(200).json({
                 status: true,
-                products,
-                message: 'Products found by category',
+                products
             });
         } else {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
-                message: 'There was a problem, please try again.',
+                message: 'Products not found.',
             });
         }
     } catch (error) {
@@ -166,24 +164,39 @@ productMethod.filterByCategory = async (req, res) => {
 };
 productMethod.filterByText = async (req, res) => {
     const text = req.query.q;
-    if(text){
-        const products = await Product.find(
-            {$text:{$search: text}},
-            {score:{$meta: 'textScore'}}
-        ).sort({
-            score:{$meta:'textScore'}
-        })
-        return res.status(200).json({
-            status: true,
-            products,
-            message: 'Products found by category',
-        });
-    }else{
+    try {
+        if (text) {
+            console.log(text);
+            await Product.find(
+                { $text: { $search: text } },
+                { score: { $meta: 'textScore' } }
+            )
+            .sort({ score: { $meta: 'textScore' } })
+            .exec((error, products) => {
+                if (products.length === 0) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Not products found, please try again.'
+                    })
+                }else{
+                    return res.status(200).json({
+                        status: true,
+                        products
+                    })   
+            }})
+        }else{
+            return res.status(404).json({
+                status: false,
+                message: 'Products not found',
+            });
+        } 
+    } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.',
         });
     }
+    
 };
 productMethod.filterByPriceAsc = async (req, res) => {
     try {

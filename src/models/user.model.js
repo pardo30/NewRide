@@ -41,4 +41,4 @@ userSchema.methods.encryptPassword = async password => {
     return bcrypt.hashSync(password, salt)
 }
 
-module.exports = model("User", userSchema);
+module.exports = model('User', userSchema);

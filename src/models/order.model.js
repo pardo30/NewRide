@@ -5,7 +5,7 @@ const { Schema, model } = require('mongoose');
 const orderSchema = new Schema({
     userID: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     },
     items: [
         {
@@ -33,4 +33,4 @@ const orderSchema = new Schema({
     }
 });
 
-module.exports = model("Order", orderSchema);
+module.exports = model('Order', orderSchema);
