@@ -11,7 +11,7 @@ try {
             if(user.isAdmin == true){
                 next();
             }else{
-                return res.status(400).json({
+                return res.status(401).json({
                 status: false,
                 message: 'You are not allowed.'
             });}        }

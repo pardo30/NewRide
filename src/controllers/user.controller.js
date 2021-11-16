@@ -19,14 +19,14 @@ userMethods.register = async (req, res) => {
             if (verifyEmail) {
                 return res.status(400).json({
                     status: false,
-                    message: 'Email already exists, please try with another one.',
+                    message: 'Email already exists, please try another one.',
                 })
             } else {
                 const verifyUsername = await getUser({ username });
                 if (verifyUsername) {
                     return res.status(400).json({
                         status: false,
-                        message: 'Username already exists, please try with another one.',
+                        message: 'Username already exists, please try another one.',
                     })
                 }
                 const user = new User({
@@ -41,12 +41,12 @@ userMethods.register = async (req, res) => {
                 if (await user.save()) {
                     return res.status(201).json({
                         status: true,
-                        message: 'User created successfully.',
+                        message: 'User successfully created.',
                     });
                 } else {
                     return res.status(400).json({
                         status: false,
-                        message: 'User has not been saved , please try again.',
+                        message: 'User has not been saved, please try again.',
                     });
                 }
             }
@@ -59,7 +59,7 @@ userMethods.register = async (req, res) => {
     } else {
         return res.status(400).json({
             status: false,
-            message: 'Please fill in all requested fields.',
+            message: 'Please, fill in all the requested fields.',
         })
     }
 };
@@ -71,14 +71,14 @@ userMethods.registerAdmin = async (req, res) => {
             if (verifyEmail) {
                 return res.status(400).json({
                     status: false,
-                    message: 'Email already exists, please try with another one.',
+                    message: 'Email already exists, please try another one.',
                 })
             } else {
                 const verifyUsername = await getUser({ username });
                 if (verifyUsername) {
                     return res.status(400).json({
                         status: false,
-                        message: 'Username already exists, please try with another one.',
+                        message: 'Username already exists, please try another one.',
                     })
                 }
                 const user = new User({
@@ -93,12 +93,12 @@ userMethods.registerAdmin = async (req, res) => {
                 if (await user.save()) {
                     return res.status(201).json({
                         status: true,
-                        message: 'Admin created successfully.',
+                        message: 'Admin successfully created.',
                     });
                 } else {
                     return res.status(400).json({
                         status: false,
-                        message: 'Admin has not been saved , please try again.',
+                        message: 'Admin has not been saved, please try again.',
                     });
                 }
             }
@@ -111,7 +111,7 @@ userMethods.registerAdmin = async (req, res) => {
     } else {
         return res.status(400).json({
             status: false,
-            message: 'Please fill in all requested fields.',
+            message: 'Please, fill in all the requested fields.',
         })
     }
 };
@@ -141,6 +141,11 @@ userMethods.login = async (req, res) => {
                 message: 'There was a problem, please try again.',
             })
         }
+    }else{
+        return res.status(400).json({
+            status: false,
+            message: 'Email does not exist, please try again.',
+        })
     }
 };
 // userMethods.authenticate = async (req, res) => {
@@ -179,18 +184,20 @@ userMethods.userProfil = async (req, res) => {
         if (user) {
             return res.status(200).json({
                 status: true,
-                user,
-                message: 'User found.'
+                user
             })
         } else {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
-                message: 'No user found.'
+                message: 'User not found.'
             })
         }
 
     } catch (error) {
-
+        return res.status(400).json({
+            status: false,
+            message: 'There was a problem, please try again.'
+        })
     }
 };
 userMethods.updatetUserProfil = async (req, res) => {
@@ -216,7 +223,7 @@ userMethods.updatetUserProfil = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: 'Product not found.',
+            message: 'There was a problem, please try again.',
         });
     }
 };
@@ -233,7 +240,7 @@ userMethods.deleteUserProfil = async (req, res) => {
             .catch(function () {
                 return res.status(400).json({
                     status: false,
-                    message: 'There was a problem, please try again.',
+                    message: 'User not updated.',
                 });
             })
     } catch (error) {
@@ -249,19 +256,18 @@ userMethods.getAllUser = async (req, res) => {
         if (users) {
             return res.status(200).json({
                 status: true,
-                users,
-                message: 'Users found.'
+                users
             })
         } else {
-            return res.status(400).json({
+            return res.status(404).json({
                 status: false,
-                message: 'No users found.'
+                message: 'Users not found.'
             })
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
-            message: 'No users found.'
+            message: 'There was a problem, please try again.'
         })
     }
 }
