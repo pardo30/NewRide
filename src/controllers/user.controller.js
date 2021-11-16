@@ -120,7 +120,6 @@ userMethods.login = async (req, res) => {
     const user = await getUser({ email });
     if (user) {
         const verifyPassword = await user.verifyPassword(password);
-        console.log(verifyPassword);
         if (!verifyPassword) {
             return res.status(400).json({
                 status: false,
@@ -148,34 +147,6 @@ userMethods.login = async (req, res) => {
         })
     }
 };
-// userMethods.authenticate = async (req, res) => {
-//     try {
-//         const token = req.headers['authorization'];
-//         console.log(token)
-//         if (token) {
-//             const verifyToken = jwt.verify(token, process.env.PRIVATE_KEY);
-//             console.log(verifyToken);
-//             if (verifyToken) {
-//                 let user = await User.findById(verifyToken);
-//                 return res.status(200).json({
-//                     status: true,
-//                     user,
-//                     message: 'The token is correct.',
-//                 });
-//             }
-//         } else {
-//             return res.status(400).json({
-//                 status: false,
-//                 message: 'The token is required.'
-//             });
-//         }
-//     } catch (error) {
-//         return res.status(400).json({
-//             status: false,
-//             message: 'The token is invalid.'
-//         });
-//     }
-// };
 
 userMethods.userProfil = async (req, res) => {
     const userID = req.userID;

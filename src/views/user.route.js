@@ -9,7 +9,6 @@ router
     .post('/register', register)
     .post('/registerAdmin', admin, registerAdmin)
     .post('/login', login)
-    //.get('/authenticate', authenticate)
     .get('/userProfil', auth, userProfil)
     .get('/getAllUsers', admin, getAllUser)
     .get('/orders',auth, getUserOrder)

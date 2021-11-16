@@ -59,11 +59,9 @@ productMethod.getProduct = async (req, res) => {
 };
 productMethod.createProduct = async (req, res) => {
     const { refCode, name, category, description, image, price, stock } = req.body;
-    console.log(name);
     //await getProduct(refCode)
     if (refCode, name, category, image, price, stock) {
         const verifyProduct = await getProduct({ refCode: refCode });
-        console.log(verifyProduct)
         if (!verifyProduct) {
             const product = new Product({
                 refCode,

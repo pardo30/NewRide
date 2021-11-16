@@ -119,7 +119,6 @@ cartMethod.deleteProduct = async (req, res) => {
     try {
         let cart = await Cart.findOne({ userID });
         let itemIndex = cart.items.findIndex(item => item.productID == productID)
-        console.log(itemIndex)
         if (itemIndex > -1) {
             //let productItem = cart.items[itemIndex];
             //cart.total -= productItem.quantity*productItem.price;
