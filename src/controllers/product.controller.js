@@ -173,10 +173,11 @@ productMethod.filterByText = async (req, res) => {
             )
             .sort({ score: { $meta: 'textScore' } })
             .exec((error, products) => {
-                if (products.length === 0) {
+                if (products) {
                     return res.status(400).json({
                         success: false,
-                        message: 'Not products found, please try again.'
+                        products,
+                        message: 'Products not found, please try again.'
                     })
                 }else{
                     return res.status(200).json({

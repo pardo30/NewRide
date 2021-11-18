@@ -15,7 +15,6 @@ cartMethod.getCartByUser = async (req, res) => {
     }
     try {
         const cart = await Cart.findOne({ userID })
-
         if (!cart) {
             return res.status(400).json({
                 status: false,
