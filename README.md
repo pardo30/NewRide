@@ -36,15 +36,15 @@ A list of technologies used within the project:
 - Install packages
 ```
     #Dependencies:
-    npm i express #
-    npm i dotenv #
-    npm i mongoose #
-    npm i jsonwebtoken #
-    npm i bcyptjs #
-    npm i cors #
+    npm i express # //Node.js web application for building web applications and APIs.
+    npm i dotenv # //Zero-dependency module that loads environment variables from a .env file.
+    npm i mongoose # //Z MongoDB object modeling tool designed to work in an asynchronous environment.
+    npm i jsonwebtoken # //An open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object
+    npm i bcryptjs # //Node.js library to hash and compare the passwords.
+    npm i cors # //A mechanism to allow or restrict requested resources on a web server depend on where the HTTP request was initiated.
     #Developer Dependencies:
-    npm i morgan --save-dev #
-    npm i nodemon --save-dev #
+    npm i morgan --save-dev # //HTTP request logger middleware for node.js
+    npm i nodemon --save-dev # //A tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 ```
 - Create .env file with port (PORT), Token Private Key (PRIVATE_KEY) and mongourl for your database (DB_URI)
 
