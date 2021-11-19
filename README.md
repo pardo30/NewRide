@@ -84,7 +84,7 @@ A list of technologies used within the project:
 |items |productID|`Schema.Types.ObjectId`|-     |true    |-      |
 |      |quantity |Number                 |-     |true    |-      |
 |      |subtotal |Number                 |-     |-       |-      |
-|total |         |Number                 |-     |        |0      |
+|total |         |Number                 |-     |-       |0      |
 
 ### Order Schema
 |Name  |         |Type                   |Unique|Required|Default   |
@@ -93,7 +93,7 @@ A list of technologies used within the project:
 |items |productID|`Schema.Types.ObjectId`|-     |true    |-         |
 |      |quantity |Number                 |-     |true    |-         |
 |      |subtotal |Number                 |-     |-       |-         |
-|total |         |Number                 |-     |        |0         |
+|total |         |Number                 |-     |-       |0         |
 |date  |         |Date                   |-     |-       |`Date.now`|
 
 ## 5. EndPoints
