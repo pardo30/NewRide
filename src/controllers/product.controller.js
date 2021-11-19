@@ -170,7 +170,6 @@ productMethod.filterByText = async (req, res) => {
     const text = req.query.q;
     try {
         if (text) {
-            console.log(text);
             await Product.find(
                 { $text: { $search: text } },
                 { score: { $meta: 'textScore' } }
