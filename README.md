@@ -16,7 +16,7 @@
 
 This application has been designed for the future Ride Group's e-commerce, dedicated to the distribution of furniture and bathroom elements. It is an academic exercise within the Backend Express Bootcamp of [GeeksHubs Academy](#https://bootcamp.geekshubsacademy.com/online/backend-express/).
 
-This API has been divided into 3 sections: users, products and orders. Within each of these sections there are different degrees of access, controlled through middelwares.
+This API has been divided into 3 sections: users, products and orders. Within each of these sections there are different degrees of access, controlled through middelwares. There is only one seller that corresponds to the admin profile.
 
 ## 2. Stack of technologies
 
