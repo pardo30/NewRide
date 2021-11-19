@@ -23,22 +23,22 @@ const userSchema = new Schema({
         type: String
     },
     isAdmin: {
-        type:Boolean,
+        type: Boolean,
         default: false
     },
-    date : { 
-        type : Date, 
-        default: Date.now 
+    date: {
+        type: Date,
+        default: Date.now
     }
-})
+});
 
-userSchema.methods.verifyPassword = function(password) {
+userSchema.methods.verifyPassword = function (password) {
     return bcrypt.compareSync(password, this.password)
-}
+};
 
 userSchema.methods.encryptPassword = async password => {
     const salt = await bcrypt.genSalt(10)
     return bcrypt.hashSync(password, salt)
-}
+};
 
 module.exports = model('User', userSchema);

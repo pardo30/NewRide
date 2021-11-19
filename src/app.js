@@ -6,7 +6,7 @@ const cors = require('cors');
 
 //Allow Json request
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 //Allow cross-origin sharing
 app.use(cors());
@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Home route
-app.get('/', (req,res) => {res.send('Home Page')})
+app.get('/', (req, res) => { res.send('Home Page') });
 
 // Configure routes
 app.use('/user', require('./views/user.route'));

@@ -18,18 +18,18 @@ productMethod.getProducts = async (req, res) => {
                 status: true,
                 products,
                 message: 'Products found.'
-            })
+            });
         } else {
             return res.status(404).json({
                 status: false,
                 message: 'Products not found.'
-            })
+            });
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
 };
 productMethod.getProduct = async (req, res) => {
@@ -56,6 +56,7 @@ productMethod.getProduct = async (req, res) => {
         });
     }
 };
+
 productMethod.createProduct = async (req, res) => {
     const { refCode, name, category, description, image, price, stock } = req.body;
     //await getProduct(refCode)
@@ -70,7 +71,7 @@ productMethod.createProduct = async (req, res) => {
                 image,
                 price,
                 stock
-            })
+            });
             if (await product.save()) {
                 return res.status(201).json({
                     status: true,
@@ -86,10 +87,11 @@ productMethod.createProduct = async (req, res) => {
             return res.status(400).json({
                 status: false,
                 message: 'Product already exists.'
-            })
+            });
         }
     }
 };
+
 productMethod.updateProduct = async (req, res) => {
     try {
         const productID = req.query.id;
@@ -117,6 +119,7 @@ productMethod.updateProduct = async (req, res) => {
         });
     }
 };
+
 productMethod.deleteProduct = async (req, res) => {
     const productID = req.query.id;
     try {
@@ -162,6 +165,7 @@ productMethod.filterByCategory = async (req, res) => {
         });
     }
 };
+
 productMethod.filterByText = async (req, res) => {
     const text = req.query.q;
     try {
@@ -171,36 +175,38 @@ productMethod.filterByText = async (req, res) => {
                 { $text: { $search: text } },
                 { score: { $meta: 'textScore' } }
             )
-            .sort({ score: { $meta: 'textScore' } })
-            .exec((error, products) => {
-                if (products.length === 0) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Products not found, please try again.'
-                    })
-                }else{
-                    return res.status(200).json({
-                        status: true,
-                        products
-                    })   
-            }})
-        }else{
+                .sort({ score: { $meta: 'textScore' } })
+                .exec((error, products) => {
+                    if (products.length === 0) {
+                        return res.status(400).json({
+                            success: false,
+                            message: 'Products not found, please try again.'
+                        });
+                    } else {
+                        return res.status(200).json({
+                            status: true,
+                            products
+                        });
+                    }
+                })
+        } else {
             return res.status(404).json({
                 status: false,
                 message: 'Products not found',
             });
-        } 
+        }
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.',
         });
     }
-    
+
 };
+
 productMethod.filterByPriceAsc = async (req, res) => {
     try {
-        const products = await Product.find().sort({price:1})
+        const products = await Product.find().sort({ price: 1 })
         if (products) {
             return res.status(200).json({
                 status: true,
@@ -220,9 +226,10 @@ productMethod.filterByPriceAsc = async (req, res) => {
         });
     }
 };
+
 productMethod.filterByPriceDesc = async (req, res) => {
     try {
-        const products = await Product.find().sort({price:-1})
+        const products = await Product.find().sort({ price: -1 })
         if (products) {
             return res.status(200).json({
                 status: true,
@@ -242,4 +249,5 @@ productMethod.filterByPriceDesc = async (req, res) => {
         });
     }
 };
+
 module.exports = productMethod;

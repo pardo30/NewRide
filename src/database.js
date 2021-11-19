@@ -15,6 +15,6 @@ function connect() {
     db.on('error', error => {
         console.error(error);
     })
-}
+};
 
 connect();

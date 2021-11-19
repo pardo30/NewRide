@@ -8,11 +8,11 @@ cartMethod.getCartByUser = async (req, res) => {
     const populateUser = {
         path: 'userID',
         select: 'name address email'
-    }
+    };
     const populateProduct = {
         path: 'items.productID',
         select: 'name category description price stock'
-    }
+    };
     try {
         const cart = await Cart.findOne({ userID })
         if (!cart) {
@@ -43,7 +43,7 @@ cartMethod.getCartByUser = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
 };
 
@@ -57,7 +57,7 @@ cartMethod.addProduct = async (req, res) => {
             return res.status(400).json({
                 status: false,
                 message: 'Product not found.'
-            })
+            });
         }
         if (cart) {
             let itemIndex = cart.items.findIndex(item => item.productID == productID)
@@ -78,7 +78,7 @@ cartMethod.addProduct = async (req, res) => {
                 return res.status(201).json({
                     status: true,
                     message: 'Cart successfully created',
-                }).send(cart)
+                }).send(cart);
             }
 
         } else {
@@ -108,7 +108,7 @@ cartMethod.addProduct = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
 };
 
@@ -118,35 +118,35 @@ cartMethod.deleteProduct = async (req, res) => {
     console.log(productID)
     try {
         let cart = await Cart.findOne({ userID });
-        if(productID){
-        let itemIndex = cart.items.findIndex(item => item.productID == productID)
-        console.log(itemIndex)
-        if (itemIndex > -1) {
-            cart.items.splice(itemIndex,1);
-            cart.total = cart.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
-        }
-        if (await cart.save()) {    
-            return res.status(200).json({
-                status: true,
-                cart,
-                message: 'Product deleted.',
-            })
+        if (productID) {
+            let itemIndex = cart.items.findIndex(item => item.productID == productID);
+            if (itemIndex > -1) {
+                cart.items.splice(itemIndex, 1);
+                cart.total = cart.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
+            }
+            if (await cart.save()) {
+                return res.status(200).json({
+                    status: true,
+                    cart,
+                    message: 'Product deleted.',
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: 'Product not deleted, please try again.'
+                });
+            }
         } else {
-            return res.status(400).json({
-                status: false,
-                message: 'Product not deleted, please try again.'
-            })
-        }}else{
             return res.status(404).json({
                 status: false,
                 message: 'Product not found.'
-            })
+            });
         }
     } catch (err) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
 };
 
@@ -156,28 +156,26 @@ cartMethod.updateQuantityProduct = async (req, res) => {
     try {
         let cart = await Cart.findOneAndUpdate({ userID })
         let product = await Product.findById(productID);
-        console.log(cart)
-        let itemIndex = cart.items.findIndex(item => item.productID == productID)
-        console.log(itemIndex)
+        let itemIndex = cart.items.findIndex(item => item.productID == productID);
         cart.items[itemIndex].quantity = quantity;
         cart.items[itemIndex].subtotal = parseInt(product.price * quantity);
         cart.total = cart.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
-        if (await cart.save()) {    
+        if (await cart.save()) {
             return res.status(200).json({
                 status: true,
                 message: 'Product quantity has been updated.',
-            })
+            });
         } else {
             return res.status(400).json({
                 status: false,
                 message: 'Product update error, please try again.'
-            })
+            });
         }
     } catch (err) {
         return res.status(400).json({
             status: false,
             message: 'Product update error, please try again.'
-        })
+        });
     }
 };
 

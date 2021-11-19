@@ -1,6 +1,4 @@
 const { Schema, model } = require('mongoose');
-//const User = mongoose.model('User');
-//const Product = mongoose.model('Product');
 
 const orderSchema = new Schema({
     userID: {
@@ -27,9 +25,9 @@ const orderSchema = new Schema({
         type: Number,
         default: 0
     },
-    date : { 
-        type : Date, 
-        default: Date.now 
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 

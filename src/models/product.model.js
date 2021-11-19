@@ -1,38 +1,39 @@
 const { Schema, model } = require('mongoose');
 
 const productSchema = new Schema({
-    refCode: {        
+    refCode: {
         type: String,
         require: true,
         unique: true,
     },
-    name: {        
+    name: {
         type: String,
         require: true,
     },
-    category: {        
+    category: {
         type: String,
         require: true,
     },
-    description: {        
+    description: {
         type: String,
     },
-    image: {        
+    image: {
         type: String,
         require: true
     },
-    price: {        
+    price: {
         type: Number,
         require: true
     },
-    stock: {        
+    stock: {
         type: Number,
         require: true
     },
-    date : { 
-        type : Date, 
-        default: Date.now 
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
-productSchema.index({name: 'text', refCode: 'text', category: 'text', description:'text'},{ name: 'textScore'});
+
+productSchema.index({ name: 'text', refCode: 'text', category: 'text', description: 'text' }, { name: 'textScore' });
 module.exports = model('Product', productSchema);

@@ -9,7 +9,7 @@ async function getUser(param) {
     } catch (error) {
         return false;
     }
-}
+};
 
 userMethods.register = async (req, res) => {
     const { username, email, password, name, address } = req.body;
@@ -20,14 +20,14 @@ userMethods.register = async (req, res) => {
                 return res.status(400).json({
                     status: false,
                     message: 'Email already exists, please try another one.',
-                })
+                });
             } else {
                 const verifyUsername = await getUser({ username });
                 if (verifyUsername) {
                     return res.status(400).json({
                         status: false,
                         message: 'Username already exists, please try another one.',
-                    })
+                    });
                 }
                 const user = new User({
                     username,
@@ -36,7 +36,6 @@ userMethods.register = async (req, res) => {
                     name,
                     address
                 });
-
                 user.password = await user.encryptPassword(user.password);
                 if (await user.save()) {
                     return res.status(201).json({
@@ -60,9 +59,10 @@ userMethods.register = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: 'Please, fill in all the requested fields.',
-        })
+        });
     }
 };
+
 userMethods.registerAdmin = async (req, res) => {
     const { username, email, password, name, isAdmin } = req.body;
     if (username, email, password) {
@@ -72,14 +72,14 @@ userMethods.registerAdmin = async (req, res) => {
                 return res.status(400).json({
                     status: false,
                     message: 'Email already exists, please try another one.',
-                })
+                });
             } else {
                 const verifyUsername = await getUser({ username });
                 if (verifyUsername) {
                     return res.status(400).json({
                         status: false,
                         message: 'Username already exists, please try another one.',
-                    })
+                    });
                 }
                 const user = new User({
                     username,
@@ -112,9 +112,10 @@ userMethods.registerAdmin = async (req, res) => {
         return res.status(400).json({
             status: false,
             message: 'Please, fill in all the requested fields.',
-        })
+        });
     }
 };
+
 userMethods.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await getUser({ email });
@@ -124,7 +125,7 @@ userMethods.login = async (req, res) => {
             return res.status(400).json({
                 status: false,
                 message: 'Email or password incorrect.'
-            })
+            });
         }
         try {
             const token = jwt.sign(user._id.toString(), process.env.PRIVATE_KEY);
@@ -133,18 +134,18 @@ userMethods.login = async (req, res) => {
                 email,
                 token,
                 message: 'Login correct.'
-            })
+            });
         } catch (error) {
             return res.status(400).json({
                 status: false,
                 message: 'There was a problem, please try again.',
-            })
+            });
         }
-    }else{
+    } else {
         return res.status(400).json({
             status: false,
             message: 'Email does not exist, please try again.',
-        })
+        });
     }
 };
 
@@ -156,21 +157,22 @@ userMethods.userProfil = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 user
-            })
+            });
         } else {
             return res.status(404).json({
                 status: false,
                 message: 'User not found.'
-            })
+            });
         }
 
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
 };
+
 userMethods.updatetUserProfil = async (req, res) => {
     const userID = req.userID;
     try {
@@ -198,6 +200,7 @@ userMethods.updatetUserProfil = async (req, res) => {
         });
     }
 };
+
 userMethods.deleteUserProfil = async (req, res) => {
     const userID = req.userID;
     try {
@@ -221,6 +224,7 @@ userMethods.deleteUserProfil = async (req, res) => {
         });
     }
 };
+
 userMethods.getAllUser = async (req, res) => {
     const users = await User.find();
     try {
@@ -228,19 +232,19 @@ userMethods.getAllUser = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 users
-            })
+            });
         } else {
             return res.status(404).json({
                 status: false,
                 message: 'Users not found.'
-            })
+            });
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'There was a problem, please try again.'
-        })
+        });
     }
-}
+};
 
 module.exports = userMethods;

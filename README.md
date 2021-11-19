@@ -7,8 +7,9 @@
 4. [Database Schemas](#4-Database-schemas)
 5. [EndPoints](#5-Endpoints)
 6. [Middelwares](#6-Middelwares)
-7. [Collaboration](#7-Collaboration)
-8. [License](#8-License)
+7. [Future Implementation](#7-Future-implementation)
+8. [Collaboration](#8-Collaboration)
+9. [License](#9-License)
 
 
 ## 1. Description
@@ -143,13 +144,17 @@ This middelware verifies the validity of the JWT and returns the associated user
 ### Admin
 This middelware verifies the validity of the JWT and check if it is a admin profile.
 
-## 7. Collaboration
+## 7. Future implementations
+
+Real time stock updating, shopping cart with product reservation, implementing payment methods in the order controller, sending confirmation email.
+
+## 8. Collaboration
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## 8. License
+## 9. License
 
 This app is released as open source under the terms of the [MIT License](https://choosealicense.com/licenses/mit/)
 Copyright 2021 Pardo30

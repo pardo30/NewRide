@@ -10,11 +10,11 @@ orderMethod.checkout = async (req, res) => {
         const populateUser = {
             path: 'userID',
             select: 'name address email'
-        }
+        };
         const populateProduct = {
             path: 'items.productID',
             select: 'name category description price stock'
-        }
+        };
         let cart = await Cart.findOne({ userID });
         if (cart) {
             const order = await new Order({
@@ -25,63 +25,36 @@ orderMethod.checkout = async (req, res) => {
             await Cart.findByIdAndDelete({ _id: cart.id });
             await order.save();
             await Order.findOne({ userID })
-            .populate(populateUser)
-            .populate(populateProduct)
-            .exec((error, order) => {
-                if (error) {
-                    return res.status(500).json({
-                        success: false,
-                        error
-                    })
-                }
-                Cart.count({}, (err, total) => {
-                    res.status(200).json({
-                        success: true,
-                        order,
-                        total
+                .populate(populateUser)
+                .populate(populateProduct)
+                .exec((error, order) => {
+                    if (error) {
+                        return res.status(500).json({
+                            success: false,
+                            error
+                        });
+                    }
+                    Cart.count({}, (err, total) => {
+                        res.status(200).json({
+                            success: true,
+                            order,
+                            total
+                        });
                     })
                 })
-            })
         } else {
             return res.status(400).json({
                 status: false,
                 message: 'Empty cart, please try again.'
-            })
+            });
         }
     } catch (error) {
         return res.status(400).json({
             status: false,
             message: 'Order error, please try again.'
-        })
+        });
     }
 };
-
-
-
-// orderMethod.emptyOrder = async (req, res) => {
-//     const userID = req.userID;
-//     try {
-//         let order = await Order.findOne({ userID });
-//         order.items = [];
-//         order.total = 0
-//         if (await order.save()) {
-//             return res.status(200).json({
-//                 status: true,
-//                 message: 'Order Has been emptied',
-//             })
-//         } else {
-//             return res.status(400).json({
-//                 status: false,
-//                 message: 'Order empty error, please try again.'
-//             })
-//         }
-//     } catch (err) {
-//         return res.status(400).json({
-//             status: false,
-//             message: 'Order empty error, please try again.'
-//         })
-//     }
-// };
 
 orderMethod.getAllOrder = async (req, res) => {
     try {
@@ -95,12 +68,12 @@ orderMethod.getAllOrder = async (req, res) => {
         res.status(200).json({
             status: true,
             order
-        })
+        });
     } catch (err) {
         return res.status(400).json({
             status: false,
             message: 'Order error, please try again.'
-        })
+        });
     }
 };
 
@@ -108,7 +81,7 @@ orderMethod.getUserOrder = async (req, res) => {
 
     try {
         const userID = req.userID;
-        const order = await Order.find({userID})
+        const order = await Order.find({ userID })
         if (!order) {
             return res.status(400).json({
                 status: false,
@@ -118,12 +91,12 @@ orderMethod.getUserOrder = async (req, res) => {
         res.status(200).json({
             status: true,
             order
-        })
+        });
     } catch (err) {
         return res.status(400).json({
             status: false,
             message: 'Order error, please try again.'
-        })
+        });
     }
 };
 
