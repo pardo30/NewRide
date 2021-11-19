@@ -42,6 +42,7 @@ orderMethod.checkout = async (req, res) => {
                         });
                     })
                 })
+        //Payment method not defined yet
         } else {
             return res.status(400).json({
                 status: false,

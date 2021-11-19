@@ -115,7 +115,6 @@ cartMethod.addProduct = async (req, res) => {
 cartMethod.deleteProduct = async (req, res) => {
     const userID = req.userID;
     const { productID } = req.body
-    console.log(productID)
     try {
         let cart = await Cart.findOne({ userID });
         if (productID) {
@@ -123,11 +122,15 @@ cartMethod.deleteProduct = async (req, res) => {
             if (itemIndex > -1) {
                 cart.items.splice(itemIndex, 1);
                 cart.total = cart.items.map(item => item.subtotal).reduce((acc, next) => acc + next);
+            }else{
+                return res.status(400).json({
+                    status: false,
+                    message: 'Product not found, please try again.'
+                });
             }
             if (await cart.save()) {
                 return res.status(200).json({
                     status: true,
-                    cart,
                     message: 'Product deleted.',
                 });
             } else {
