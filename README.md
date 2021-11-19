@@ -7,7 +7,7 @@
 4. [Database Schemas](#4-Database-schemas)
 5. [EndPoints](#5-Endpoints)
 6. [Middelwares](#6-Middelwares)
-7. [Future Implementation](#7-Future-implementation)
+7. [Future Implementation](#7-Future-implementations)
 8. [Collaboration](#8-Collaboration)
 9. [License](#9-License)
 
